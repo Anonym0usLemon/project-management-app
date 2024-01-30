@@ -16,7 +16,7 @@ function App() {
     }));
   }
 
-  function handleStopAddProject() {
+  function handleCancel() {
     setProjectState((prevState) => ({
       ...prevState,
       selectedProjectId: undefined,
@@ -32,6 +32,7 @@ function App() {
 
       return { 
         ...prevState,
+        selectedProjectId: undefined, // redirects user to the "No Projects Selected screen"
         projects: [ ...prevState.projects, newProject ]
 
       };
@@ -41,14 +42,14 @@ function App() {
   let content;
 
   if (projectState.selectedProjectId === null) {
-    content = <NewProject onAdd={handleAddProject} onStopAddProject={handleStopAddProject} />;
+    content = <NewProject onAdd={handleAddProject} onCancel={handleCancel} />;
   } else if (projectState.selectedProjectId === undefined) {
     content = <NoProjectSelected onStartAddProject={handleStartAddProject} />;
   }
 
   return (
     <main className="h-screen my-8 flex gap-8">
-      <ProjectsSidebar onStartAddProject={handleStartAddProject} />
+      <ProjectsSidebar onStartAddProject={handleStartAddProject} projects={projectState.projects}/>
       {content}
     </main>
   );
